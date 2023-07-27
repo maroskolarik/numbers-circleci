@@ -52,6 +52,6 @@ jobs:
       - run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
       - run: gradle clean
       - run: gradle build
-      #- run: jib:build -D image=maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
+      - run: docker build -t maroskolarik/circleci-app:$CIRCLE_BUILD_NUM . --push
 
 
