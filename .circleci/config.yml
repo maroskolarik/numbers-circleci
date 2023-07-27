@@ -49,7 +49,7 @@ jobs:
 
 
       # login to DockerHub
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: docker login --username $DOCKER_USER --password-stdin
       - run: gradle clean
       - run: gradle build jib:build -D image=maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
 
