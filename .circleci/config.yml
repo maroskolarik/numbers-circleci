@@ -52,6 +52,7 @@ jobs:
       - run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
       - run: gradle clean
       - run: gradle build
-      - run: docker build -t maroskolarik/circleci-app:$CIRCLE_BUILD_NUM . --push
+      - run: docker build -t maroskolarik/circleci-app:$CIRCLE_BUILD_NUM .
+      - run: docker push maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
 
 
