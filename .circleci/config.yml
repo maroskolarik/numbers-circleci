@@ -25,6 +25,7 @@ jobs:
       TERM: dumb
     # Add steps to the job
     # See: https://circleci.com/docs/configuration-reference/#steps
+    parallelism: 4
     steps:
       - checkout
 
@@ -43,25 +44,36 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: gradle test
+      - run:
+          name: Run tests
+          command: gradle test
 
       # run build
-      - run: gradle clean
-      - run: gradle build
+      - run:
+          name: Build JAR file
+          command: gradle build
 
       # setup remote Docker (???)
       - setup_remote_docker:
 
       # login to DockerHub
-      - run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+      - run:
+          name: Login to Docker Hub
+          command: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
       # build Docker image
-      - run: docker build -t maroskolarik/circleci-app:$CIRCLE_BUILD_NUM .
+      - run:
+          name: Build Docker image
+          command: docker build -t maroskolarik/circleci-app:$CIRCLE_BUILD_NUM .
 
       # push image to Docker hub
-      - run: docker push maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
+      - run:
+          name: Push image to Docker Hub
+          command: docker push maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
 
-      - run: sh tf-install.sh
+#      - run:
+#          name: Install Terraform
+#          command: sh tf-install.sh
 
       #- run: terraform version
 
