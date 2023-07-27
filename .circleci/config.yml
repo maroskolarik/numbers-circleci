@@ -17,7 +17,7 @@ jobs:
       # documented at https://circleci.com/docs/circleci-images/
       # - image: circleci/postgres:9.4
 
-    working_directory: ~/repo
+    working_directory: ~/app
 
     environment:
       # Customize the JVM maximum heap limit
@@ -46,4 +46,13 @@ jobs:
       - run: gradle test
 
       # run build
-      - run: gradle build
+
+
+      # login to DockerHub
+      - run:
+          name: Login to DockerHub
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: gradle clean
+      - run: gradle build jib:build -D image=maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
+
+
