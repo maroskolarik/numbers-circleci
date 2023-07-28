@@ -78,7 +78,7 @@ jobs:
             terraform -chdir="./tf" init
       - run:
           name: Deploy to EC2
-          command: terraform -chdir="./tf" plan
+          command: terraform -chdir="./tf" apply -auto-approve
         
 workflows:
   version: 2
