@@ -68,10 +68,13 @@ jobs:
       - run:
           name: Push image to Docker Hub
           command: docker push maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
-
       - run:
           name: Install Terraform
           command: bash ./tf/tf-install.sh
+
+      - run:
+          name: Deploy to EC2
+          command: terraform -chdir="./tf" plan
         
 workflows:
   version: 2
