@@ -9,8 +9,6 @@ terraform {
 
 provider "aws" {
   region     = "eu-west-3"
-  access_key = "$AWS_ACCESS"
-  secret_key = "$AWS_SECRET"
 }
 
 resource "aws_security_group" "MK-ODW-2-sg" {
