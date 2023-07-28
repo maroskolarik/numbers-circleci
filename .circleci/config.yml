@@ -17,7 +17,7 @@ jobs:
       # documented at https://circleci.com/docs/circleci-images/
       # - image: circleci/postgres:9.4
 
-    working_directory: ~/app/backend
+    working_directory: ~/app
 
     environment:
       # Customize the JVM maximum heap limit
@@ -26,8 +26,7 @@ jobs:
     # Add steps to the job
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
-      - checkout:
-          path: ~/app
+      - checkout
 
       # Download and cache dependencies
       - restore_cache:
