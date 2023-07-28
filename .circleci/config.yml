@@ -75,6 +75,7 @@ jobs:
 #          command: sh tf-install.sh
 
       #- run: terraform version
+      #
   build_dev:
     docker:
       - image: circleci/openjdk:8-jdk
