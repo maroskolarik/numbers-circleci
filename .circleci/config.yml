@@ -87,7 +87,12 @@ jobs:
       #- run: sudo apt update
       - run:
           name: Install sshpass
-          command: sudo apt install sshpass
+          command: |
+            sudo apt update << EOF
+            sudo apt install sshpass
+            EOF
+          
+          
 
       - run:
           name: Deploy Docker container to EC2
