@@ -21,7 +21,7 @@ public class NumberController {
 
     @GetMapping("/")
     public ResponseEntity index() {
-        return ResponseEntity.status(200).body("CALCULATOR SERVICE 2000 - 1337");
+        return ResponseEntity.status(200).body("CALCULATOR SERVICE 2000 - 1339");
     }
 
     @PostMapping("/")
