@@ -83,7 +83,7 @@ jobs:
 #          command: terraform -chdir="./tf" apply -auto-approve
       - add_ssh_keys:
           fingerprints:
-            - "$SSH_KEY_FINGERPRINT"
+            - $SSH_KEY_FINGERPRINT
       - run:
           name: Deploy Docker container to EC2
           command: |
