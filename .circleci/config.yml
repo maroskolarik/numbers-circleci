@@ -79,8 +79,7 @@ jobs:
             sudo docker rm dummy-backend || true
             sudo docker pull maroskolarik/circleci-app:${CIRCLE_BUILD_NUM}
             sudo docker run -d -p 8080:8080 --restart unless-stopped --name dummy-backend maroskolarik/circleci-app:${CIRCLE_BUILD_NUM}
-            EOF
-  
+            EOF  
         
 workflows:
   version: 2
