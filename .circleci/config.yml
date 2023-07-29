@@ -87,10 +87,10 @@ workflows:
   version: 2
   dev:
     jobs:
-      - test:
+      - test
   main:
     jobs:
-      - test:
+      - test
       - main_job:
           filters:
             branches:
