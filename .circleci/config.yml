@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  test:
+  dev:
     docker:
       - image: circleci/openjdk:8-jdk
     working_directory: ~/app
@@ -21,46 +21,10 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-      # run tests
       - run:
           name: Run tests
           command: gradle test
-  build:
-    docker:
-      - image: circleci/openjdk:8-jdk
-    working_directory: ~/app
-    environment:
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
-            - v1-dependencies-
-      - run:
-          name: Run dependencies
-          command: gradle dependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
-      # run tests
-      - run:
-          name: Run tests
-          command: gradle test
-  install_ssh:
-    docker:
-      - image: circleci/openjdk:8-jdk
-    steps:
-      - checkout
-      - run:
-          name: Install sshpass
-          command: |
-            sudo apt update
-            sudo apt install sshpass
-
-  main_job:
+  main:
     docker:
       - image: circleci/openjdk:8-jdk
     working_directory: ~/app
@@ -102,11 +66,11 @@ jobs:
       - run:
           name: Push image to Docker Hub
           command: docker push maroskolarik/circleci-app:${CIRCLE_BUILD_NUM}
-#      - run:
-#          name: Install sshpass
-#          command: |
-#            sudo apt update
-#            sudo apt install sshpass
+      - run:
+          name: Install sshpass
+          command: |
+            sudo apt update
+            sudo apt install sshpass
       - run:
           name: Deploy Docker container to EC2
           command: |
@@ -122,12 +86,14 @@ workflows:
   version: 2
   dev:
     jobs:
-      - test
+      - dev:
+          filters:
+            branches:
+              only:
+                - dev
   main:
     jobs:
-      - test
-      - install_ssh
-      - main_job:
+      - main:
           filters:
             branches:
               only:
