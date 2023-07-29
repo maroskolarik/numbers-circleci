@@ -84,7 +84,7 @@ jobs:
       - run:
           name: Deploy Docker container to EC2
           command: |
-            ssh ubuntu@13.39.158.131 << EOF
+            ssh -o StrictHostKeyChecking=no ubuntu@13.39.158.131 << EOF
             sudo docker stop dummy-backend || true
             sudo docker rm dummy-backend || true
             sudo docker pull maroskolarik/circleci-app:${CIRCLE_SHA1}
