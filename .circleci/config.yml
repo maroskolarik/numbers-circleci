@@ -81,13 +81,13 @@ jobs:
 #      - run:
 #          name: Deploy to EC2
 #          command: terraform -chdir="./tf" apply -auto-approve
-      - add_ssh_keys:
-          fingerprints:
-            - $SSH_KEY_FINGERPRINT
+      - run:
+          name: Add SSH key to environment
+          command: echo "$SSH_KEY_FINGERPRINT" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
       - run:
           name: Deploy Docker container to EC2
           command: |
-            ssh -o StrictHostKeyChecking=no ubuntu@15.237.113.118 << EOF
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@15.237.113.118 << EOF
             sudo docker stop dummy-backend || true
             sudo docker rm dummy-backend || true
             sudo docker pull maroskolarik/circleci-app:${CIRCLE_SHA1}
