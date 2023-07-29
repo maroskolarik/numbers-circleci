@@ -1,7 +1,31 @@
 version: 2
 
 jobs:
-  dev_job:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/app
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
+      - run:
+          name: Run dependencies
+          command: gradle dependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+      # run tests
+      - run:
+          name: Run tests
+          command: gradle test
+  test:
     docker:
       - image: circleci/openjdk:8-jdk
     working_directory: ~/app
@@ -63,28 +87,11 @@ jobs:
       # build Docker image
       - run:
           name: Build Docker image
-          #command: docker build -t maroskolarik/circleci-app:$CIRCLE_BUILD_NUM .
           command: docker build -t maroskolarik/circleci-app:${CIRCLE_BUILD_NUM} .
       # push image to Docker hub
       - run:
           name: Push image to Docker Hub
-          #command: docker push maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
           command: docker push maroskolarik/circleci-app:${CIRCLE_BUILD_NUM}
-#      - run:
-#          name: Install Terraform
-#          command: bash ./tf/tf-install.sh
-#
-#      - run:
-#          name: Init Terraform
-#          command:
-#            terraform -chdir="./tf" init -backend=false
-#      - run:
-#          name: Deploy to EC2
-#          command: terraform -chdir="./tf" apply -auto-approve
-#      - run:
-#          name: Add SSH key to environment
-#          command: echo "$SSH_KEY_FINGERPRINT" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-      #- run: sudo apt update
       - run:
           name: Install sshpass
           command: |
@@ -102,15 +109,12 @@ jobs:
         
 workflows:
   version: 2
-  dev_job:
+  dev:
     jobs:
-      - dev_job:
-          filters:
-            branches:
-              only:
-                - dev
-  main_job:
+      - test:
+  main:
     jobs:
+      - test:
       - main_job:
           filters:
             branches:
