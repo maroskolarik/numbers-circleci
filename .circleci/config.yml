@@ -59,7 +59,7 @@ jobs:
       # login to DockerHub
       - run:
           name: Login to Docker Hub
-          command: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+          command: echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
       # build Docker image
       - run:
           name: Build Docker image
@@ -93,7 +93,7 @@ jobs:
       - run:
           name: Deploy Docker container to EC2
           command: |
-            sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no ubuntu@15.237.113.118 << EOF
+            sshpass -p ${SSH_PASS} ssh -o StrictHostKeyChecking=no ubuntu@15.237.113.118 << EOF
             sudo docker stop dummy-backend || true
             sudo docker rm dummy-backend || true
             sudo docker pull maroskolarik/circleci-app:${CIRCLE_BUILD_NUM}
