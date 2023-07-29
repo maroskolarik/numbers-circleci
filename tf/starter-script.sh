@@ -13,4 +13,4 @@ apt install -y docker-ce
 systemctl start docker
 systemctl enable docker
 #run docker container
-docker run -d -p 8080:8080 --restart unless-stopped --name dummy-backend maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
+docker run -d -p 8080:8080 --restart unless-stopped --name dummy-backend maroskolarik/circleci-app

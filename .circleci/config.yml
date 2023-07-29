@@ -67,7 +67,8 @@ jobs:
       # push image to Docker hub
       - run:
           name: Push image to Docker Hub
-          command: docker push maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
+          #command: docker push maroskolarik/circleci-app:$CIRCLE_BUILD_NUM
+          command: docker push maroskolarik/circleci-app
       - run:
           name: Install Terraform
           command: bash ./tf/tf-install.sh
