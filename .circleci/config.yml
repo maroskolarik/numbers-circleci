@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 jobs:
   dev:
@@ -15,7 +15,7 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
       - run:
-          name: Run dependencies
+          name: Declare dependencies
           command: gradle dependencies
       - save_cache:
           paths:
@@ -38,7 +38,7 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
       - run:
-          name: Run dependencies
+          name: Declare dependencies
           command: gradle dependencies
       - save_cache:
           paths:
