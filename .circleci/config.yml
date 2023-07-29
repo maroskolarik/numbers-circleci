@@ -84,6 +84,9 @@ jobs:
 #      - run:
 #          name: Add SSH key to environment
 #          command: echo "$SSH_KEY_FINGERPRINT" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+      - run: sudo apt update
+      - run: sudo apt install sshpass
+
       - run:
           name: Deploy Docker container to EC2
           command: bash ./update-container.sh

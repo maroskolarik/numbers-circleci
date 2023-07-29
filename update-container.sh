@@ -1,6 +1,4 @@
 #!/bin/bash
-sudo apt update
-sudo apt install sshpass
 sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no ubuntu@15.237.113.118
 sudo docker stop dummy-backend || true
 sudo docker rm dummy-backend || true
